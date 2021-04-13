@@ -3,7 +3,8 @@ import User from '../../models/User.js'
 import sanitizeBody from '../../middleware/sanitizeBody.js'
 import createDebug from 'debug'
 import express from 'express'
-import auth from '../../middleware/auth.js'
+import auth from '../../middleware/auth.js' 
+import api from '../../middleware/api.js'
 
 const debug = createDebug('giftr_api:auth')
 const router = express.Router()
@@ -43,7 +44,7 @@ router.post('/users', sanitizeBody, async (req, res) => {
 })
 
 // Login a user and return an authentication token.
-router.post('/tokens', sanitizeBody, async (req, res) => {
+router.post('/tokens', sanitizeBody, api, async (req, res) => {
   const {email, password} = req.sanitizedBody
   const user = await User.authenticate(email, password)
 
@@ -61,13 +62,13 @@ router.post('/tokens', sanitizeBody, async (req, res) => {
 })
 
 //login the current user
-router.get('/users/me', auth, async (req, res) => {
+router.get('/users/me', auth, api, async (req, res) => {
   const user = await User.findById(req.user._id)
   res.send({ data: user })
 })
 
 //update password route
-router.patch('/users/me', auth, sanitizeBody, async (req, res) => {
+router.patch('/users/me', auth, api, sanitizeBody, async (req, res) => {
   try{
   const password = req.sanitizedBody
   const user = await User.findByIdAndUpdate(req.user._id, password)
@@ -77,5 +78,5 @@ router.patch('/users/me', auth, sanitizeBody, async (req, res) => {
     debug('Error saving your new password', err)
   }
 })
-  
+
 export default router
