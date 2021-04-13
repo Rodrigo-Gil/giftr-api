@@ -14,6 +14,7 @@ const schema = new mongoose.Schema({
     maxLength: 512,
     unique: true,
     required: true,
+    lowercase: true
   },
   password: { type: String, trim: true, maxLength: 70, required: true },
 })
@@ -38,6 +39,15 @@ schema.pre('save', async function (next) {
   if (!this.isModified('password')) return next()
 
   this.password = await bcrypt.hash(this.password, saltRounds)
+  next()
+})
+
+
+schema.pre('findOneAndUpdate', async function (next) {
+  //handling the password update
+  if (this._update.password) {
+    this._update.password = await bcrypt.hash(this._update.password, saltRounds)
+  }
   next()
 })
 

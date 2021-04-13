@@ -57,7 +57,6 @@ router.post('/tokens', sanitizeBody, async (req, res) => {
       ]
     })
   }
-
   res.status(201).send({data: {token: user.generateAuthToken()}})
 })
 
@@ -67,4 +66,16 @@ router.get('/users/me', auth, async (req, res) => {
   res.send({ data: user })
 })
 
+//update password route
+router.patch('/users/me', auth, sanitizeBody, async (req, res) => {
+  try{
+  const password = req.sanitizedBody
+  const user = await User.findByIdAndUpdate(req.user._id, password)
+  await user.save()
+  res.send({ data: "Your password has been updated" })
+  } catch (err) {
+    debug('Error saving your new password', err)
+  }
+})
+  
 export default router
