@@ -3,6 +3,7 @@ import User from '../../models/User.js'
 import sanitizeBody from '../../middleware/sanitizeBody.js'
 import createDebug from 'debug'
 import express from 'express'
+import auth from '../../middleware/auth.js'
 
 const debug = createDebug('giftr_api:auth')
 const router = express.Router()
@@ -58,6 +59,12 @@ router.post('/tokens', sanitizeBody, async (req, res) => {
   }
 
   res.status(201).send({data: {token: user.generateAuthToken()}})
+})
+
+//login the current user
+router.get('/users/me', auth, async (req, res) => {
+  const user = await User.findById(req.user._id)
+  res.send({ data: user })
 })
 
 export default router

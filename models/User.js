@@ -41,6 +41,14 @@ schema.pre('save', async function (next) {
   next()
 })
 
+//deleting sensitive information on json responses
+schema.methods.toJSON = function () {
+  const obj = this.toObject()
+  delete obj.password
+  delete obj.__v
+  return obj
+}
+
 const Model = mongoose.model('User', schema)
 
 export default Model
