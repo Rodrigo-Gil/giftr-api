@@ -4,6 +4,11 @@
 import express from 'express'
 import morgan from 'morgan'
 import helmet from 'helmet'
+import sanitizeMongo from 'express-mongo-sanitize'
+
+
+//importing all the routers
+import authRouter from './routes/auth/index.js'
 
 
 const app = express()
@@ -16,10 +21,9 @@ connectDB()
 app.use(morgan('tiny'))
 app.use(helmet())
 app.use(express.json())
+app.use(sanitizeMongo())
 
-const port = process.env.PORT || 3030
-app.listen(port, () => {
-    console.log(`Server listening on port ${port}...`)
-})
+//routes
+app.use('/auth', authRouter)
 
 export default app
