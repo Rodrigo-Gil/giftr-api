@@ -9,6 +9,7 @@ import sanitizeMongo from 'express-mongo-sanitize'
 
 //importing all the routers
 import authRouter from './routes/auth/index.js'
+import peopleRouter from './routes/people.js'
 
 
 const app = express()
@@ -25,5 +26,6 @@ app.use(sanitizeMongo())
 
 //routes
 app.use('/auth', authRouter)
+app.use('/api/people', peopleRouter)
 
 export default app

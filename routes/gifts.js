@@ -1,7 +1,9 @@
-import sanitizeBody from '../../middleware/sanitizeBody.js'
+import createDebug from 'debug'
+import sanitizeBody from '../middleware/sanitizeBody.js'
 import { Gift } from '../../models/index.js'
 import express from 'express'
 
+const debug = createDebug('giftr:routes:gifts')
 const router = express.Router()
 
 router.get('/', async (req, res) => {

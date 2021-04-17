@@ -10,7 +10,7 @@ const debug = createDebug('giftr_api:auth')
 const router = express.Router()
 
 // Register a new user
-router.post('/users', sanitizeBody, async (req, res) => {
+router.post('/users', api, sanitizeBody, async (req, res) => {
   try {
     const newUser = new User(req.sanitizedBody)
 
