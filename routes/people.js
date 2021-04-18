@@ -3,6 +3,7 @@ import createDebug from 'debug'
 import express from 'express'
 import { Person, User } from '../models/index.js'
 import { auth, api, sanitizeBody }  from '../middleware/index.js'
+import resourceNotFound from '../exceptions/resourceNotFound.js'
 
 const debug = createDebug('giftr:routes:people')
 const router = express.Router()
@@ -12,6 +13,9 @@ router.get('/', auth, api, async (req, res, next) => {
   try {
   const user = await User.findById(req.user._id)
   const collection = await Person.find({ owner: user })
+  if (!collection) {
+    throw new resourceNotFound(`We could not find a person with the id: ${req.params.id}`)
+  }
   res.send({ data: collection })
   } catch (err) {
     debug('error getting all people', err.message)
@@ -35,7 +39,9 @@ router.post('/', sanitizeBody, auth, api, async (req, res, next) => {
 router.get('/:id', auth, api, async (req, res, next) => {
   try {
     const document = await Person.findById( req.params.id ).populate('gifts')
-    if (!document) throw new Error('Resource not found')
+    if (!document) {
+      throw new resourceNotFound(`We could not find a person with the id: ${req.params.id}`)
+    }
     res.send({ data: document })
   } catch (err) {
     debug('error getting a person by id', err.message)
@@ -71,23 +77,13 @@ router.patch('/:id', auth, api, sanitizeBody, update(false))
 router.delete('/:id', auth, async (req, res) => {
   try {
     const document = await Person.findByIdAndRemove(req.params.id)
-    if (!document) throw new Error('Resource not found')
+    if (!document) {
+      throw new resourceNotFound(`We could not find a person with the id ${req.params.id}`)
+    }
     res.send({ data: document })
   } catch (err) {
     sendResourceNotFound(req, res)
   }
 })
-
-function sendResourceNotFound(req, res) {
-  res.status(404).send({
-    error: [
-      {
-        status: '404',
-        title: 'Resource does nto exist',
-        description: `We could not find a person with id: ${req.params.id}`,
-      },
-    ],
-  })
-}
 
 export default router

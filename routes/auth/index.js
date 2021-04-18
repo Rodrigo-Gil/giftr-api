@@ -20,7 +20,7 @@ router.post('/users', api, sanitizeBody, async (req, res, next) => {
 })
 
 // Login a user and return an authentication token.
-router.post('/tokens', sanitizeBody, api, async (req, res, next) => {
+router.post('/tokens', api, sanitizeBody, async (req, res, next) => {
   try {
   const {email, password} = req.sanitizedBody
   const user = await User.authenticate(email, password)
@@ -43,7 +43,7 @@ router.get('/users/me', auth, api, async (req, res, next) => {
 })
 
 //update password route
-router.patch('/users/me', auth, api, sanitizeBody, async (req, res, next) => {
+router.patch('/users/me', api, auth, sanitizeBody, async (req, res, next) => {
   try{
   const password = req.sanitizedBody
   const user = await User.findByIdAndUpdate(req.user._id, password)

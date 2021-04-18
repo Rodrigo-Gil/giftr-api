@@ -3,6 +3,7 @@ import createDebug from 'debug'
 import express from 'express'
 import { api, auth, sanitizeBody } from '../middleware/index.js'
 import { Gift, Person } from '../models/index.js'
+import resourceNotFound from '../exceptions/resourceNotFound.js'
 
 
 const debug = createDebug('giftr:routes:gifts')
@@ -26,7 +27,7 @@ router.post('/:id/gifts', auth, sanitizeBody, async (req, res, next) => {
 
 const update = (overwrite = false) => async (req, res, next) => {
   try {
-    const course = await Gift.findByIdAndUpdate(
+    const gift = await Gift.findByIdAndUpdate(
       req.params.id,
       req.sanitizedBody,
       {
@@ -35,8 +36,10 @@ const update = (overwrite = false) => async (req, res, next) => {
         runValidators: true,
       }
     )
-    if (!course) throw new Error('Resource not found')
-    res.send({ data: course })
+    if (!course) {
+      throw new resourceNotFound(`We could not find a gift with the id ${req.params.id}`)
+    }
+    res.send({ data: gift })
   } catch (err) {
     debug('Error updating the document', err.message)
     next(err)
@@ -50,7 +53,9 @@ router.patch(':id/gifts/:giftId', api, auth, sanitizeBody, update(false))
 router.delete(':id/gifts/:giftId', api, auth, async (req, res) => {
   try {
     const Gift = await Gift.findByIdAndRemove(req.params.id)
-    if (!Gift) throw new Error('Resource not found')
+    if (!Gift) {
+      throw new resourceNotFound(`We could not find a gift with the id ${req.params.id}`)
+    }
     res.send({ data: Gift })
   } catch (err) {
     debug('Error deleting the gift', err.message)
