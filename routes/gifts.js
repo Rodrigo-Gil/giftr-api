@@ -1,5 +1,4 @@
 
-import createDebug from 'debug'
 import express from 'express'
 import { api, auth, sanitizeBody } from '../middleware/index.js'
 import { Gift, Person } from '../models/index.js'
@@ -16,12 +15,13 @@ router.post('/:id/gifts', auth, sanitizeBody, async (req, res, next) => {
     const newDocument = new Gift(req.sanitizedBody)
   try {
     await newDocument.save()
-    const savedDoc = Person.findOne({_id: req.params.id})
+    const savedDoc = await Person.findOne({ _id: req.params.id })
     savedDoc.gifts.push(newDocument._id)
     await savedDoc.save()
-    res.status(201).send({ data: savedDoc })
+    const popDoc = await Person.findOne({_id: req.params.id }).populate('gifts')
+    res.status(201).send({ data: popDoc })
   } catch (err) {
-    debug('Error creating a new gift', err.message)
+    log.error('Error creating a new gift', err.message)
     next(err)
   }
 })
@@ -42,7 +42,7 @@ const update = (overwrite = false) => async (req, res, next) => {
     }
     res.send({ data: gift })
   } catch (err) {
-    debug('Error updating the document', err.message)
+    log.error('Error updating the document', err.message)
     next(err)
   }
 }
@@ -51,15 +51,18 @@ const update = (overwrite = false) => async (req, res, next) => {
 router.patch(':id/gifts/:giftId', api, auth, sanitizeBody, update(false))
 
 //delete gifts
-router.delete(':id/gifts/:giftId', api, auth, async (req, res) => {
+//TO DO - FIX THE DELETE ROUTE
+router.delete(':id/gifts/:giftId', api, auth, async (req, res, next) => {
   try {
+    const Person = await Person.findById(req.person.id)
     const Gift = await Gift.findByIdAndRemove(req.params.id)
     if (!Gift) {
-      throw new resourceNotFound(`We could not find a gift with the id ${req.params.id}`)
+      throw new resourceNotFound(`We could not find a gift with the id ${req.params.id} for the person
+      ${req.person.id}`)
     }
     res.send({ data: Gift })
   } catch (err) {
-    debug('Error deleting the gift', err.message)
+    log.error('Error deleting the gift', err.message)
     next(err)
   }
 })

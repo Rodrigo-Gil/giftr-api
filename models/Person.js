@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import User from './User.js'
 
 const schema = new mongoose.Schema({
     name: { type: String, required: true, maxLength: 254 },
@@ -6,9 +7,9 @@ const schema = new mongoose.Schema({
     owner: {
       type: mongoose.Schema.Types.ObjectId, ref: 'User',
       required: true,
-      default: 'type'
+      default: undefined
       },
-    sharedWith: [
+      sharedWith: [
       {
         type: mongoose.Schema.Types.ObjectId, ref: 'User',
       },
