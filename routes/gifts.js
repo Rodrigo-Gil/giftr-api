@@ -1,9 +1,8 @@
+
 import createDebug from 'debug'
-import sanitizeBody from '../middleware/sanitizeBody.js'
-import { Gift, Person } from '../models/index.js'
 import express from 'express'
-import api from '../middleware/api.js'
-import auth from '../middleware/auth.js'
+import { api, auth, sanitizeBody } from '../middleware/index.js'
+import { Gift, Person } from '../models/index.js'
 
 
 const debug = createDebug('giftr:routes:gifts')

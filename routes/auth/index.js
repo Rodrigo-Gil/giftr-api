@@ -1,10 +1,8 @@
 
-import { User } from '../../models/index.js'
-import sanitizeBody from '../../middleware/sanitizeBody.js'
 import createDebug from 'debug'
 import express from 'express'
-import auth from '../../middleware/auth.js' 
-import api from '../../middleware/api.js'
+import { User } from '../../models/index.js'
+import { sanitizeBody, auth, api } from '../../middleware/index.js'
 
 const debug = createDebug('giftr_api:auth')
 const router = express.Router()

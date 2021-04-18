@@ -6,11 +6,12 @@ import morgan from 'morgan'
 import helmet from 'helmet'
 import sanitizeMongo from 'express-mongo-sanitize'
 
+//registering the error handlers
+import { logError, errorHandler } from './middleware/index.js'
+
 
 //importing all the routers
-import authRouter from './routes/auth/index.js'
-import peopleRouter from './routes/people.js'
-import giftRouter from './routes/gifts.js'
+import { authRouter, peopleRouter, giftRouter } from './routes/index.js'
 
 const app = express()
 
@@ -27,5 +28,9 @@ app.use(sanitizeMongo())
 app.use('/auth', authRouter)
 app.use('/api/people', peopleRouter)
 app.use('/api/people', giftRouter)
+
+//error handlers
+app.use(logError)
+app.use(errorHandler)
 
 export default app

@@ -1,18 +1,22 @@
+
 import createDebug from 'debug'
-import sanitizeBody from '../middleware/sanitizeBody.js'
-import { Person, User } from '../models/index.js'
 import express from 'express'
-import auth from '../middleware/auth.js'
-import api from '../middleware/api.js'
+import { Person, User } from '../models/index.js'
+import { auth, api, sanitizeBody }  from '../middleware/index.js'
 
 const debug = createDebug('giftr:routes:people')
 const router = express.Router()
 
 //getting all the people
-router.get('/', auth, api, async (req, res) => {
+router.get('/', auth, api, async (req, res, next) => {
+  try {
   const user = await User.findById(req.user._id)
   const collection = await Person.find({ owner: user })
   res.send({ data: collection })
+  } catch (err) {
+    debug('error getting all people', err.message)
+    next(err)
+  }
 })
 
 //creating a person
@@ -22,28 +26,20 @@ router.post('/', sanitizeBody, auth, api, async (req, res, next) => {
     await newDocument.save()
     res.status(201).send({ data: newDocument })
   } catch (err) {
-    debug(err)
-    res.status(500).send({
-      errors: [
-        {
-          status: '500',
-          title: 'Server error',
-          description: 'Problem saving document to the database.',
-        },
-      ],
-    })
+    debug('error creating a person on the db', err.message)
+    next(err)
   }
 })
 
 //getting a person by ID, gift ideas populated
-router.get('/:id', auth, api, async (req, res) => {
+router.get('/:id', auth, api, async (req, res, next) => {
   try {
     const document = await Person.findById( req.params.id ).populate('gifts')
     if (!document) throw new Error('Resource not found')
-
     res.send({ data: document })
   } catch (err) {
-    sendResourceNotFound(req, res)
+    debug('error getting a person by id', err.message)
+    next(err)
   }
 })
 
