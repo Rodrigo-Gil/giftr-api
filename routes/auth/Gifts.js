@@ -28,7 +28,26 @@ router.post('/', sanitizeBody, async (req, res) => {
   }
 })
 
-router.get('./:id', async (req, res) => {
+router.post('/api/people/:id/gifts', sanitizeBody, async (req, res) => {
+  let newDocument = new Gift(req.sanitizeBody)
+  try {
+    await newDocument.save()
+    res.status(201).send({ data: newDocument })
+  } catch (err) {
+    debug(err)
+    res.status(500).send({
+      errors: [
+        {
+          status: '500',
+          title: 'Server error',
+          description: 'Problem saving document to the database.',
+        },
+      ],
+    })
+  }
+})
+
+router.get('/api/people/:id/gifts', async (req, res) => {
   try {
     const Gift = await Gift.findById(req.params.id).populate('owner')
     if (!Gift) throw new Error('Resource not found')
@@ -56,10 +75,10 @@ const update = (overwrite = false) => async (req, res) => {
   }
 }
 
-router.put('/:id', sanitizeBody, update(true))
-router.patch('/:id', sanitizeBody, update(false))
+router.put('/api/people/:id/gifts/:giftId', sanitizeBody, update(true))
+router.patch('/api/people/:id/gifts/:giftId', sanitizeBody, update(false))
 
-router.delete('/:id', async (req, res) => {
+router.delete('/api/people/:id/gifts/:giftId', async (req, res) => {
   try {
     const Gift = await Gift.findByIdAndRemove(req.params.id)
     if (!Gift) throw new Error('Resource not found')
