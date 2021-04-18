@@ -1,21 +1,26 @@
 import createDebug from 'debug'
 import sanitizeBody from '../middleware/sanitizeBody.js'
-import { Gift } from '../../models/index.js'
+import Gift from '../models/Gift.js'
 import express from 'express'
+import api from '../middleware/api.js'
+import Person from '../models/Person.js'
+import auth from '../middleware/auth.js'
+
 
 const debug = createDebug('giftr:routes:gifts')
 const router = express.Router()
 
-router.get('/', async (req, res) => {
-  const collection = await Gift.find().populate('owner')
-  res.send({ data: collection })
-})
 
-router.post('/', sanitizeBody, async (req, res) => {
-  let newDocument = new Gift(req.sanitizeBody)
+//creating new gifts 
+router.post('/:id/gifts', api, auth, sanitizeBody, async (req, res) => {
+  let newDocument = new Gift (req.sanitizeBody)
+
   try {
     await newDocument.save()
-    res.status(201).send({ data: newDocument })
+    let savedDoc = await Person.findById({ _id: req.params.id})
+    await savedDoc.gifts.push( newDocument._id )
+    await savedDoc.save()
+    res.status(201).send({ data: savedDoc })
   } catch (err) {
     debug(err)
     res.status(500).send({
@@ -30,15 +35,6 @@ router.post('/', sanitizeBody, async (req, res) => {
   }
 })
 
-router.get('./:id', async (req, res) => {
-  try {
-    const Gift = await Gift.findById(req.params.id).populate('owner')
-    if (!Gift) throw new Error('Resource not found')
-    res.send({ data: Gift })
-  } catch (err) {
-    sendResourceNotFound(req, res)
-  }
-})
 
 const update = (overwrite = false) => async (req, res) => {
   try {
@@ -58,10 +54,11 @@ const update = (overwrite = false) => async (req, res) => {
   }
 }
 
-router.put('/:id', sanitizeBody, update(true))
-router.patch('/:id', sanitizeBody, update(false))
+//updating gifts
+router.patch(':id/gifts/:giftId', api, auth, sanitizeBody, update(false))
 
-router.delete('/:id', async (req, res) => {
+//delete gifts
+router.delete(':id/gifts/:giftId', api, auth, async (req, res) => {
   try {
     const Gift = await Gift.findByIdAndRemove(req.params.id)
     if (!Gift) throw new Error('Resource not found')
@@ -70,3 +67,5 @@ router.delete('/:id', async (req, res) => {
     sendResourceNotFound(req, res)
   }
 })
+
+export default router

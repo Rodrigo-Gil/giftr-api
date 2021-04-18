@@ -14,18 +14,17 @@ const schema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, ref: 'User',
       },
     ],
-    gifts: [
+    gifts:[
       {
         type: mongoose.Schema.Types.ObjectId, ref: 'Gift',
-      }
+      },
     ],
     imageUrl: { type: String , maxLength: 1024 },
-  },
+  } ,
   {
     timestamps: true,
   }
 )
-
 
 const Model = mongoose.model('Person', schema)
 
