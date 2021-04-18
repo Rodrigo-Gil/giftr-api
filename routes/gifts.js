@@ -20,20 +20,12 @@ router.post('/:id/gifts', auth, sanitizeBody, async (req, res, next) => {
     await savedDoc.save()
     res.status(201).send({ data: savedDoc })
   } catch (err) {
-    debug(err)
-    res.status(500).send({
-      errors: [
-        {
-          status: '500',
-          title: 'Server error',
-          description: 'Problem saving document to the database.',
-        },
-      ],
-    })
+    debug('Error creating a new gift', err.message)
+    next(err)
   }
 })
 
-const update = (overwrite = false) => async (req, res) => {
+const update = (overwrite = false) => async (req, res, next) => {
   try {
     const course = await Gift.findByIdAndUpdate(
       req.params.id,
@@ -47,7 +39,8 @@ const update = (overwrite = false) => async (req, res) => {
     if (!course) throw new Error('Resource not found')
     res.send({ data: course })
   } catch (err) {
-    sendResourceNotFound(req, res)
+    debug('Error updating the document', err.message)
+    next(err)
   }
 }
 
@@ -61,7 +54,8 @@ router.delete(':id/gifts/:giftId', api, auth, async (req, res) => {
     if (!Gift) throw new Error('Resource not found')
     res.send({ data: Gift })
   } catch (err) {
-    sendResourceNotFound(req, res)
+    debug('Error deleting the gift', err.message)
+    next(err)
   }
 })
 
