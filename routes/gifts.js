@@ -4,9 +4,10 @@ import express from 'express'
 import { api, auth, sanitizeBody } from '../middleware/index.js'
 import { Gift, Person } from '../models/index.js'
 import resourceNotFound from '../exceptions/resourceNotFound.js'
+import logger from '../startup/logger.js'
 
 
-const debug = createDebug('giftr:routes:gifts')
+const log = logger.child({ module: 'giftRoute'})
 const router = express.Router()
 
 

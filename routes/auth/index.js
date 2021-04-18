@@ -3,8 +3,9 @@ import createDebug from 'debug'
 import express from 'express'
 import { User } from '../../models/index.js'
 import { sanitizeBody, auth, api } from '../../middleware/index.js'
+import logger from '../../startup/logger.js'
 
-const debug = createDebug('giftr_api:auth')
+const log = logger.child({ module: 'authRoute '})
 const router = express.Router()
 
 // Register a new user
@@ -14,7 +15,7 @@ router.post('/users', api, sanitizeBody, async (req, res, next) => {
     await newUser.save()
     res.status(201).send({data: newUser})
   } catch (err) {
-    debug('Error saving new user: ', err.message)
+    log.error('Error saving new user: ', err.message)
     next(err)
   }
 })
@@ -26,7 +27,7 @@ router.post('/tokens', api, sanitizeBody, async (req, res, next) => {
   const user = await User.authenticate(email, password)
   res.status(201).send({data: {token: user.generateAuthToken()}})
   } catch (err) {
-    debug('Error returning a token: ', err.message)
+    log.error('Error returning a token: ', err.message)
     next(err)
   }
 })
@@ -37,7 +38,7 @@ router.get('/users/me', auth, api, async (req, res, next) => {
   const user = await User.findById(req.user._id)
   res.send({ data: user })
   } catch (err) {
-    debug('Error retrieving the current user ', err.message)
+    log.error('Error retrieving the current user ', err.message)
     next(err)
   }
 })
@@ -50,7 +51,7 @@ router.patch('/users/me', api, auth, sanitizeBody, async (req, res, next) => {
   await user.save()
   res.send({ data: "Your password has been updated" })
   } catch (err) {
-    debug('Error saving your new password', err)
+    log.error('Error saving your new password', err)
     next(err)
   }
 })

@@ -4,8 +4,9 @@ import express from 'express'
 import { Person, User } from '../models/index.js'
 import { auth, api, sanitizeBody }  from '../middleware/index.js'
 import resourceNotFound from '../exceptions/resourceNotFound.js'
+import logger from '../startup/logger.js'
 
-const debug = createDebug('giftr:routes:people')
+const log = logger.child({ module: 'peopleRoute' })
 const router = express.Router()
 
 //getting all the people
@@ -18,7 +19,7 @@ router.get('/', auth, api, async (req, res, next) => {
   }
   res.send({ data: collection })
   } catch (err) {
-    debug('error getting all people', err.message)
+    log.error('error getting all people', err.message)
     next(err)
   }
 })
@@ -30,7 +31,7 @@ router.post('/', sanitizeBody, auth, api, async (req, res, next) => {
     await newDocument.save()
     res.status(201).send({ data: newDocument })
   } catch (err) {
-    debug('error creating a person on the db', err.message)
+    log.error('error creating a person on the db', err.message)
     next(err)
   }
 })
@@ -44,7 +45,7 @@ router.get('/:id', auth, api, async (req, res, next) => {
     }
     res.send({ data: document })
   } catch (err) {
-    debug('error getting a person by id', err.message)
+    log.error('error getting a person by id', err.message)
     next(err)
   }
 })
