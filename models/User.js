@@ -2,6 +2,8 @@ import mongoose from 'mongoose'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import uniqueValidator from 'mongoose-unique-validator'
+import validator from 'validator'
+
 
 const saltRounds = 14
 const jwtSecretKey = 'superSecretKey'
@@ -16,10 +18,10 @@ const schema = new mongoose.Schema({
     unique: true,
     required: true,
     validate: {
-      validator: value => validator.isEmail(value),
-      message: props => `${props.value} is not a valid email address`
+      validator: (value) => validator.isEmail(value),
+      message: (props) => `${props.value} is not a valid email address`
     },
-    set: value => value.toLowerCase(),
+    set: function (value) { return value.toLowerCase()},
   },
   password: { type: String, trim: true, maxLength: 70, required: true },
 })
@@ -74,7 +76,6 @@ schema.plugin(uniqueValidator, {
     }
   }
 })
-
 
 const Model = mongoose.model('User', schema)
 

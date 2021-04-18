@@ -1,6 +1,6 @@
 import createDebug from 'debug'
 import sanitizeBody from '../middleware/sanitizeBody.js'
-import Person from '../models/Person.js'
+import { Person, User } from '../models/index.js'
 import express from 'express'
 import auth from '../middleware/auth.js'
 import api from '../middleware/api.js'
@@ -10,12 +10,13 @@ const router = express.Router()
 
 //getting all the people
 router.get('/', auth, api, async (req, res) => {
-  const collection = await Person.find()
+  const user = await User.findById(req.user._id)
+  const collection = await Person.find({ owner: user })
   res.send({ data: collection })
 })
 
 //creating a person
-router.post('/', sanitizeBody, auth, api, async (req, res) => {
+router.post('/', sanitizeBody, auth, api, async (req, res, next) => {
   let newDocument = new Person(req.sanitizedBody)
   try {
     await newDocument.save()
@@ -37,7 +38,7 @@ router.post('/', sanitizeBody, auth, api, async (req, res) => {
 //getting a person by ID, gift ideas populated
 router.get('/:id', auth, api, async (req, res) => {
   try {
-    const document = await Person.findById(req.params.id).populate('gifts')
+    const document = await Person.findById( req.params.id ).populate('gifts')
     if (!document) throw new Error('Resource not found')
 
     res.send({ data: document })

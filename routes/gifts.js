@@ -1,9 +1,8 @@
 import createDebug from 'debug'
 import sanitizeBody from '../middleware/sanitizeBody.js'
-import Gift from '../models/Gift.js'
+import { Gift, Person } from '../models/index.js'
 import express from 'express'
 import api from '../middleware/api.js'
-import Person from '../models/Person.js'
 import auth from '../middleware/auth.js'
 
 
@@ -12,13 +11,12 @@ const router = express.Router()
 
 
 //creating new gifts 
-router.post('/:id/gifts', api, auth, sanitizeBody, async (req, res) => {
-  let newDocument = new Gift (req.sanitizeBody)
-
+router.post('/:id/gifts', auth, sanitizeBody, async (req, res, next) => {
+    const newDocument = new Gift(req.sanitizedBody)
   try {
     await newDocument.save()
-    let savedDoc = await Person.findById({ _id: req.params.id})
-    await savedDoc.gifts.push( newDocument._id )
+    const savedDoc = Person.findOne({_id: req.params.id})
+    savedDoc.gifts.push(newDocument._id)
     await savedDoc.save()
     res.status(201).send({ data: savedDoc })
   } catch (err) {
@@ -34,7 +32,6 @@ router.post('/:id/gifts', api, auth, sanitizeBody, async (req, res) => {
     })
   }
 })
-
 
 const update = (overwrite = false) => async (req, res) => {
   try {
