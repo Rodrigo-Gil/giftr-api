@@ -1,4 +1,3 @@
-
 import express from 'express'
 import { User } from '../../models/index.js'
 import { sanitizeBody, auth, api } from '../../middleware/index.js'
