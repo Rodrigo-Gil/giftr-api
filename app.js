@@ -5,6 +5,8 @@ import express from 'express'
 import morgan from 'morgan'
 import helmet from 'helmet'
 import sanitizeMongo from 'express-mongo-sanitize'
+import compression from 'compression'
+import cors from 'cors'
 
 //registering the error handlers
 import { logError, errorHandler } from './middleware/index.js'
@@ -19,10 +21,15 @@ const app = express()
 import connectDB from './startup/connectDatabase.js'
 connectDB()
 
+//Health Check route
+app.get('/', (req, res) => res.send({data: { healthStatus: 'UP'}}))
+
 app.use(morgan('tiny'))
 app.use(helmet())
 app.use(express.json())
 app.use(sanitizeMongo())
+app.use(compression())
+app.use(cors())
 
 //routes
 app.use('/auth', authRouter)

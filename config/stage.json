@@ -1,0 +1,11 @@
+{
+    "db": {
+      "scheme": "mongodb+srv",
+      "userName": "APP_DBUSER",
+      "password": "APP_DBPASSWORD",
+      "host": "giftr.muhiv.mongodb.net",
+      "authSource":"test",
+      "name": "myFirstDatabase",
+      "port": 80
+    }
+}

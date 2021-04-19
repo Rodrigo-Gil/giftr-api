@@ -1,0 +1,11 @@
+{
+    "name": "Giftr_APP",
+    "db": {
+      "host": "giftr.muhiv.mongodb.net",
+      "port": 80,
+      "dbName": "myFirstDatabase"
+    },
+    "jwt": {
+      "saltRounds": 14
+    }
+  }
