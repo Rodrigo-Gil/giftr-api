@@ -1,11 +1,11 @@
 {
     "db": {
       "scheme": "mongodb+srv",
-      "userName": "APP_DBUSER",
-      "password": "APP_DBPASSWORD",
+      "username": "API_DBUSER",
+      "password": "API_DBPASSWORD",
+      "port": 80,
       "host": "giftr.muhiv.mongodb.net",
-      "authSource":"test",
-      "name": "myFirstDatabase",
-      "port": 80
+      "authSource": "test",
+      "name": "w21-final-giftr"
     }
 }

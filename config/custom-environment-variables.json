@@ -1,10 +1,10 @@
 {
     "db": {
-      "userName": "APP_DBUSER",
-      "password": "APP_DBPASSWORD"
+      "username": "API_DBUSER",
+      "password": "API_DBPASSWORD"
     },
     "jwt": {
-      "secretKey": "APP_JWTKEY"
+      "secretKey": "API_JWTKEY"
     }
   }
   

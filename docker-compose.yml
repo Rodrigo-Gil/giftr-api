@@ -1,14 +1,12 @@
-version: '3.1'
+version: '3.8'
 services:
   express:
-    image: giftr-api
-    container_name: giftr-api
+    image: giftr-api-w21
+    container_name: giftr-api-w21
     environment:
-      APP_JWTKEY: mzledxuzr6ec0pu93kmyhy01xrot3a
+      API_JWTKEY: 633gnm5o9xh02f594ila6wdblbu14c
       API_PORT: 80
       NODE_ENV: 'stage'
-      APP_DBUSER: APP_DBUSER
-      APP_DBPASSWORD: APP_DBPASSWORD
     ports:
-      - 80:3030
+      - 3030:80
     command: node server.js
