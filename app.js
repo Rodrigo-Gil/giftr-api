@@ -12,7 +12,6 @@ import log from './startup/logger.js'
 //registering the error handlers
 import { logError, errorHandler } from './middleware/index.js'
 
-
 //importing all the routers
 import { authRouter, peopleRouter, giftRouter } from './routes/index.js'
 
@@ -33,7 +32,7 @@ app.use(express.json())
 app.use(sanitizeMongo())
 
 //Health Check route
-app.get('/', (req, res) => res.send({data: { healthStatus: 'UP'}}))
+app.get('/', (req, res) => res.send({ data: { healthStatus: 'UP' } }))
 //routes
 app.use('/auth', authRouter)
 app.use('/api/people', peopleRouter)

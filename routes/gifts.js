@@ -1,18 +1,15 @@
-
 import express from 'express'
 import { api, auth, sanitizeBody } from '../middleware/index.js'
 import { Gift, Person } from '../models/index.js'
 import resourceNotFound from '../exceptions/resourceNotFound.js'
 import logger from '../startup/logger.js'
 
-
-const log = logger.child({ module: 'giftRoute'})
+const log = logger.child({ module: 'giftRoute' })
 const router = express.Router()
 
-
-//creating new gifts 
+//creating new gifts
 router.post('/:id/gifts', api, auth, sanitizeBody, async (req, res, next) => {
-    const newDocument = new Gift(req.sanitizedBody)
+  const newDocument = new Gift(req.sanitizedBody)
   try {
     await newDocument.save()
     const savedDoc = await Person.findById(req.params.id)
@@ -38,7 +35,9 @@ const update = (overwrite = false) => async (req, res, next) => {
       }
     )
     if (!gift) {
-      throw new resourceNotFound(`We could not find a gift with the id ${req.params.giftId}`)
+      throw new resourceNotFound(
+        `We could not find a gift with the id ${req.params.giftId}`
+      )
     }
     res.send({ data: gift })
   } catch (err) {
@@ -52,7 +51,7 @@ router.patch('/:id/gifts/:giftId', api, auth, sanitizeBody, update(false))
 
 //delete gifts
 router.delete('/:id/gifts/:giftId', api, auth, async (req, res, next) => {
-  try { 
+  try {
     const gift = await Gift.findByIdAndRemove(req.params.giftId)
     if (!gift) {
       throw new resourceNotFound(`We could not find a gift with the id ${req.params.giftId} for the person

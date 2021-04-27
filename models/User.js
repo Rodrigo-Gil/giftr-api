@@ -4,7 +4,6 @@ import bcrypt from 'bcrypt'
 import uniqueValidator from 'mongoose-unique-validator'
 import validator from 'validator'
 
-
 const saltRounds = 14
 const jwtSecretKey = 'superSecretKey'
 
@@ -19,9 +18,11 @@ const schema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (value) => validator.isEmail(value),
-      message: (props) => `${props.value} is not a valid email address`
+      message: (props) => `${props.value} is not a valid email address`,
     },
-    set: function (value) { return value.toLowerCase()},
+    set: function (value) {
+      return value.toLowerCase()
+    },
   },
   password: { type: String, trim: true, maxLength: 70, required: true },
 })
@@ -49,7 +50,6 @@ schema.pre('save', async function (next) {
   next()
 })
 
-
 schema.pre('findOneAndUpdate', async function (next) {
   //handling the password update
   if (this._update.password) {
@@ -68,13 +68,13 @@ schema.methods.toJSON = function () {
 
 //registering the validator plugin for the email
 schema.plugin(uniqueValidator, {
-  message: function(props) {
+  message: function (props) {
     if (props.path === 'email') {
       return `The email address '${props.value}' is already registered.`
     } else {
       return `The ${props.path} must be unique. '${props.value}' is already in use.`
     }
-  }
+  },
 })
 
 const Model = mongoose.model('User', schema)
