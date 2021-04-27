@@ -1,7 +1,7 @@
 {
   "name": "giftr_api",
   "version": "1.0.0",
-  "description": "the server for a gift app to track gift ideas.",
+  "description": "the RESTful API for a gift app to track gift ideas.",
   "main": "app.js",
   "type": "module",
   "scripts": {
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ahma0154/mad9124-w21-p1-giftr1.git"
+    "url": "git+https://github.com/gil00013/giftr-api"
   },
-  "author": "Rodrigo Gil and Saif Khalid",
+  "author": "Rodrigo Gil",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gil00013/mad9124-w21-p1-giftr/issues"
+    "url": "https://github.com/gil00013/giftr-api/issues"
   },
-  "homepage": "https://github.com/gil00013/mad9124-w21-p1-giftr#readme",
+  "homepage": "https://github.com/gil00013/giftr-api#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
