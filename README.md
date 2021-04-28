@@ -2,8 +2,6 @@
 
 A RESTful API web service using Node.js, Express, Mongoose and MongoDB. This proof of concept has the following features;
 
-AWS API URL - http://giftr-api-elb-1492435831.us-east-1.elb.amazonaws.com
-
 * The API supports basic registration, login and change password features;
 * Each registered user can create a list of gifts for people they create;
 * The user can add one or more gift ideas for their list of people;
