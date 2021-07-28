@@ -17,4 +17,4 @@ WORKDIR /app
 RUN npm install --unsafe-perm
 
 EXPOSE 80
-CMD node server.js
+CMD npm run stage

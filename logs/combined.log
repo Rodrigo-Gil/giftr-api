@@ -956,3 +956,19 @@
 {"message":"stage","level":"warn","service":"Giftr_App"}
 {"module":"server","message":"HTTP server listening on port 3030","level":"info","service":"Giftr_App"}
 {"module":"connectDB","message":"Connected to MongoDB @ w21-final-giftr...","level":"info","service":"Giftr_App"}
+{"message":"stage","level":"info","service":"Giftr_App"}
+{"message":"stage","level":"warn","service":"Giftr_App"}
+{"module":"server","message":"HTTP server listening on port 3030","level":"info","service":"Giftr_App"}
+{"module":"connectDB","service":"Giftr_App","ok":0,"code":8000,"codeName":"AtlasError","name":"MongoError","level":"error","message":"Error connecting to MongoDB ... bad auth : Authentication failed.","stack":"MongoError: bad auth : Authentication failed.\n    at MessageStream.messageHandler (/Users/guest123/Documents/Code/projects/Giftr/mad9124-w21-p1-giftr1/node_modules/mongodb/lib/cmap/connection.js:268:20)\n    at MessageStream.emit (events.js:314:20)\n    at processIncomingData (/Users/guest123/Documents/Code/projects/Giftr/mad9124-w21-p1-giftr1/node_modules/mongodb/lib/cmap/message_stream.js:144:12)\n    at MessageStream._write (/Users/guest123/Documents/Code/projects/Giftr/mad9124-w21-p1-giftr1/node_modules/mongodb/lib/cmap/message_stream.js:42:5)\n    at doWrite (_stream_writable.js:403:12)\n    at writeOrBuffer (_stream_writable.js:387:5)\n    at MessageStream.Writable.write (_stream_writable.js:318:11)\n    at TLSSocket.ondata (_stream_readable.js:718:22)\n    at TLSSocket.emit (events.js:314:20)\n    at addChunk (_stream_readable.js:297:12)\n    at readableAddChunk (_stream_readable.js:272:9)\n    at TLSSocket.Readable.push (_stream_readable.js:213:10)\n    at TLSWrap.onStreamRead (internal/stream_base_commons.js:188:23)"}
+{"level":"info","service":"Giftr_App"}
+{"message":"development","level":"warn","service":"Giftr_App"}
+{"module":"server","message":"HTTP server listening on port 3030","level":"info","service":"Giftr_App"}
+{"module":"connectDB","message":"Connected to MongoDB @ w21-final-giftr...","level":"info","service":"Giftr_App"}
+{"level":"info","service":"Giftr_App"}
+{"message":"development","level":"warn","service":"Giftr_App"}
+{"module":"server","message":"HTTP server listening on port 3030","level":"info","service":"Giftr_App"}
+{"module":"connectDB","message":"Connected to MongoDB @ w21-final-giftr...","level":"info","service":"Giftr_App"}
+{"message":"stage","level":"info","service":"Giftr_App"}
+{"message":"stage","level":"warn","service":"Giftr_App"}
+{"module":"server","message":"HTTP server listening on port 3030","level":"info","service":"Giftr_App"}
+{"module":"connectDB","service":"Giftr_App","ok":0,"code":8000,"codeName":"AtlasError","name":"MongoError","level":"error","message":"Error connecting to MongoDB ... bad auth : Authentication failed.","stack":"MongoError: bad auth : Authentication failed.\n    at MessageStream.messageHandler (/Users/guest123/Documents/Code/projects/Giftr/mad9124-w21-p1-giftr1/node_modules/mongodb/lib/cmap/connection.js:268:20)\n    at MessageStream.emit (events.js:314:20)\n    at processIncomingData (/Users/guest123/Documents/Code/projects/Giftr/mad9124-w21-p1-giftr1/node_modules/mongodb/lib/cmap/message_stream.js:144:12)\n    at MessageStream._write (/Users/guest123/Documents/Code/projects/Giftr/mad9124-w21-p1-giftr1/node_modules/mongodb/lib/cmap/message_stream.js:42:5)\n    at doWrite (_stream_writable.js:403:12)\n    at writeOrBuffer (_stream_writable.js:387:5)\n    at MessageStream.Writable.write (_stream_writable.js:318:11)\n    at TLSSocket.ondata (_stream_readable.js:718:22)\n    at TLSSocket.emit (events.js:314:20)\n    at addChunk (_stream_readable.js:297:12)\n    at readableAddChunk (_stream_readable.js:272:9)\n    at TLSSocket.Readable.push (_stream_readable.js:213:10)\n    at TLSWrap.onStreamRead (internal/stream_base_commons.js:188:23)"}

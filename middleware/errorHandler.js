@@ -18,7 +18,7 @@ const formatValidationError = function (errors) {
 }
 
 export default function handleErrors(err, req, res, next) {
-  const isValidationError = err?.name === 'ValidationError'
+  const isValidationError = err.name === 'ValidationError'
   const code = isValidationError ? 400 : err.code || 500
 
   let payload
