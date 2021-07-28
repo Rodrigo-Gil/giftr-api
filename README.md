@@ -16,6 +16,3 @@ A RESTful API web service using Node.js, Express, Mongoose and MongoDB. This pro
 * Express Middleware functions were used to simplify and streamline the development;
 * All errors responses meet the JSON:API standards;
 * All the user/client data is sanitized against XSS/Query injection attacks;
-
-**AWS - Amazon Web Services API URL** <br>
-http://giftr-api-elb-1492435831.us-east-1.elb.amazonaws.com
