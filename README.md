@@ -1,4 +1,6 @@
-# Giftr APP API
+# Giftr APP API 
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/3b2be409-af5c-4e13-995a-a068facb4e49/deploy-status)](https://app.netlify.com/sites/dreamy-panini-04f005/deploys)
 
 A RESTful API web service using Node.js, Express, Mongoose and MongoDB. This proof of concept has the following features;
 
@@ -19,4 +21,4 @@ A RESTful API web service using Node.js, Express, Mongoose and MongoDB. This pro
 
 
 ## API URL
-https://z9b7fdb1b-z8ce2712b-gtw.qovery.io
+https://dreamy-panini-04f005.netlify.app/
